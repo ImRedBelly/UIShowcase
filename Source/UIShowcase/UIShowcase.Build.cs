@@ -11,7 +11,7 @@ public class UIShowcase : ModuleRules
 		PublicDependencyModuleNames.AddRange(new string[]
 		{
 			"Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "GameplayTags", "UMG", "CommonUI",
-			"DeveloperSettings"
+			"DeveloperSettings", "CommonInput"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { });

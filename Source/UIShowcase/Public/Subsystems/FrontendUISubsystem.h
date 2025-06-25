@@ -3,10 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "FrontendTypes/FrontendEnumTypes.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "Widgets/Widget_ActivatableBase.h"
 #include "FrontendUISubsystem.generated.h"
 
+class UFrontendCommonButtonBase;
 class UWidget_ActivatableBase;
 struct FGameplayTag;
 class UWidget_PrimaryLayout;
@@ -16,6 +18,9 @@ enum class EAsyncPushWidgetState
 	OnCreateBeforePush,
 	AfterPush,
 };
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnButtonDescriptionTextUpdatedDelegate, UFrontendCommonButtonBase*,
+                                             BroadcastingButton, FText, DescriptionText);
 
 /**
  * 
@@ -37,6 +42,13 @@ public:
 	                                TSoftClassPtr<UWidget_ActivatableBase> InSoftWidgetClass,
 	                                TFunction<void(EAsyncPushWidgetState, UWidget_ActivatableBase*)>
 	                                AsyncPushStateCallback);
+
+	void PushConfirmScreenToModalStackAsync(EConfirmScreenType InScreenType,
+	                                        const FText& InScreenTitle, const FText& InScreenMsg,
+	                                        TFunction<void(EConfirmScreenButtonType)> ButtonClickedCallback);
+
+	UPROPERTY(BlueprintAssignable)
+	FOnButtonDescriptionTextUpdatedDelegate OnButtonDescriptionTextUpdated;
 
 private:
 	UPROPERTY(Transient)
