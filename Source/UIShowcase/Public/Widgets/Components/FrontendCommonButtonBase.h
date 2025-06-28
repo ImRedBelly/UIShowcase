@@ -11,13 +11,16 @@ class UCommonTextBlock;
 /**
  * 
  */
-UCLASS(Abstract, BlueprintType, meta = (DisableNaiveTick))
+UCLASS(Abstract, BlueprintType, meta = (DisableNativeTick))
 class UISHOWCASE_API UFrontendCommonButtonBase : public UCommonButtonBase
 {
 	GENERATED_BODY()
 
 public:
 	void SetButtonText(FText InText);
+
+	UFUNCTION(BlueprintCallable)
+	FText GetButtonDisplayText() const;
 
 private:
 	virtual void NativePreConstruct() override;

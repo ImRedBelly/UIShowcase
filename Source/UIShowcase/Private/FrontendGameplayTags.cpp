@@ -12,9 +12,12 @@ namespace FrontendGameplayTags
 	UISHOWCASE_API UE_DEFINE_GAMEPLAY_TAG(Frontend_WidgetStack_Frontend, "Frontend.WidgetStack.Frontend");
 
 	//Frontend widgets
-	UE_DEFINE_GAMEPLAY_TAG(Frontend_Widget_PressAnyKeyScreen,"Frontend.Widget.PressAnyKeyScreen");
-	UE_DEFINE_GAMEPLAY_TAG(Frontend_Widget_MainMenuScreen,"Frontend.Widget.MainMenuScreen");
-	UE_DEFINE_GAMEPLAY_TAG(Frontend_Widget_OptionScreen,"Frontend.Widget.OptionScreen");
-	
-	UE_DEFINE_GAMEPLAY_TAG(Frontend_Widget_ConfirmScreen,"Frontend.Widget.ConfirmScreen");
+	UE_DEFINE_GAMEPLAY_TAG(Frontend_Widget_PressAnyKeyScreen, "Frontend.Widget.PressAnyKeyScreen");
+	UE_DEFINE_GAMEPLAY_TAG(Frontend_Widget_MainMenuScreen, "Frontend.Widget.MainMenuScreen");
+	UE_DEFINE_GAMEPLAY_TAG(Frontend_Widget_OptionScreen, "Frontend.Widget.OptionScreen");
+
+	UE_DEFINE_GAMEPLAY_TAG(Frontend_Widget_ConfirmScreen, "Frontend.Widget.ConfirmScreen");
+
+	//Frontend Options Image
+	UE_DEFINE_GAMEPLAY_TAG(Frontend_Image_TestImage, "Frontend.Image.TestImage");
 }

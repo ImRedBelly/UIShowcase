@@ -45,7 +45,7 @@ public:
 };
 
 
-UCLASS(Abstract, BlueprintType, meta = (DisableNaiveTick))
+UCLASS(Abstract, BlueprintType, meta = (DisableNativeTick))
 class UISHOWCASE_API UWidget_ConfirmScreen : public UWidget_ActivatableBase
 {
 	GENERATED_BODY()

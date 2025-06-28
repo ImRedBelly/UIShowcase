@@ -16,6 +16,9 @@ namespace FrontendGameplayTags
 	UISHOWCASE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Frontend_Widget_PressAnyKeyScreen);
 	UISHOWCASE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Frontend_Widget_MainMenuScreen);
 	UISHOWCASE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Frontend_Widget_OptionScreen);
-	
+
 	UISHOWCASE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Frontend_Widget_ConfirmScreen);
+
+	//Frontend Options Image
+	UISHOWCASE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Frontend_Image_TestImage);
 }
