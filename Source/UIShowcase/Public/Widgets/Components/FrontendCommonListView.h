@@ -17,6 +17,8 @@ protected:
 	//~ Begin UCommonListView Interface
 	virtual UUserWidget& OnGenerateEntryWidgetInternal(UObject* Item, TSubclassOf<UUserWidget> DesiredEntryClass,
 	                                                   const TSharedRef<STableViewBase>& OwnerTable) override;
+
+	virtual bool OnIsSelectableOrNavigableInternal(UObject* FirstSelectedItem) override;
 	//~ End UCommonListView Interface
 
 private:

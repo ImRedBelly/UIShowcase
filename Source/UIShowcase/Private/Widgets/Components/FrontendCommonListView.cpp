@@ -5,6 +5,7 @@
 #include "Editor/WidgetCompilerLog.h"
 #include "Widgets/Options/DataAsset_DataListEntryMapping.h"
 #include "Widgets/Options/DataObjects/ListDataObject_Base.h"
+#include "Widgets/Options/DataObjects/ListDataObject_Collection.h"
 #include "Widgets/Options/ListEntries/Widget_ListEntry_Base.h"
 
 UUserWidget& UFrontendCommonListView::OnGenerateEntryWidgetInternal(UObject* Item,
@@ -22,6 +23,11 @@ UUserWidget& UFrontendCommonListView::OnGenerateEntryWidgetInternal(UObject* Ite
 	}
 	
 	return Super::OnGenerateEntryWidgetInternal(Item, DesiredEntryClass, OwnerTable);
+}
+
+bool UFrontendCommonListView::OnIsSelectableOrNavigableInternal(UObject* FirstSelectedItem)
+{
+	return !FirstSelectedItem->IsA<UListDataObject_Collection>();
 }
 
 #if WITH_EDITOR
