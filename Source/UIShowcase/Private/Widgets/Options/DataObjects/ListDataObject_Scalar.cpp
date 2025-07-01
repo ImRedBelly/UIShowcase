@@ -42,7 +42,7 @@ void UListDataObject_Scalar::SetCurrentValueFromSlider(float InNewValue)
 			OutputValueRange,
 			InNewValue);
 
-		DataDynamicSetter->SetValueAsString(LexToString(ClampedValue));
+		DataDynamicSetter->SetValueFromString(LexToString(ClampedValue));
 		NotifyListDataModified(this);
 	}
 }
@@ -64,12 +64,20 @@ bool UListDataObject_Scalar::TryResetBackToDefaultValue()
 	{
 		if (DataDynamicSetter)
 		{
-			DataDynamicSetter->SetValueAsString(GetDefaultValueAsString());
+			DataDynamicSetter->SetValueFromString(GetDefaultValueAsString());
 			NotifyListDataModified(this, EOptionsListDataModifyReason::ResetToDefault);
 			return true;
 		}
 	}
 	return false;
+}
+
+void UListDataObject_Scalar::OnEditDependencyDataModified(UListDataObject_Base* ModifiedDependencyData,
+                                                          EOptionsListDataModifyReason ModifyReason)
+{
+	NotifyListDataModified(this, EOptionsListDataModifyReason::DependencyModified);
+	
+	Super::OnEditDependencyDataModified(ModifiedDependencyData, ModifyReason);
 }
 
 float UListDataObject_Scalar::StringToFloat(const FString& InString) const

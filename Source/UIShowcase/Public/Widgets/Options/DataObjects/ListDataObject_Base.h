@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "FrontendTypes/FrontendEnumTypes.h"
+#include "FrontendTypes/FrontendStructTypes.h"
 #include "UObject/Object.h"
 #include "ListDataObject_Base.generated.h"
 
@@ -24,6 +25,7 @@ public:
 	                                     EOptionsListDataModifyReason);
 
 	FOnListDataModifiedDelegate OnListDataModified;
+	FOnListDataModifiedDelegate OnDependencyDataModified;
 
 	LIST_DATA_ACCESSOR(FName, DataID);
 	LIST_DATA_ACCESSOR(FText, DataDisplayName);
@@ -34,11 +36,11 @@ public:
 
 	void InitDataObject();
 
-	//Empty in the base class. Child class ListDataObject_Collection should override it. The function should return all the child data a tab hasAdd commentMore actions
+	//Empty in the base class. Child class ListDataObject_Collection should override it. The function should return all the child data a tab has
 	virtual TArray<UListDataObject_Base*> GetAllChildListData() const { return TArray<UListDataObject_Base*>(); }
 	virtual bool HasAnyChildListData() const { return false; }
 
-	void SetShouldApplyChangeImmediately(bool bShouldApplyRightAway)
+	void SetShouldApplySettingsImmediately(bool bShouldApplyRightAway)
 	{
 		bShouldApplyChangeImmediately = bShouldApplyRightAway;
 	}
@@ -47,13 +49,33 @@ public:
 	virtual bool CanResetBackToDefaultValue() const { return false; };
 	virtual bool TryResetBackToDefaultValue() { return false; };
 
+	//Gets called from OptionsDataRegistry for adding in edit conditions for the constructed list data objects
+	void AddEditCondition(const FOptionsDataEditConditionDescriptor& InEditCondition);
+
+	//Gets called from OptionsDataRegistry to add in dependency data
+	void AddEditDependencyData(UListDataObject_Base* InDependencyData);
+
+	bool IsDataCurrentlyEditable();
+
 protected:
-	//Empty in base class. The child classes should override it to handle the initialization needed accrodinglyAdd commentMore actions
+	//Empty in base class. The child classes should override it to handle the initialization needed accrodingly
 	virtual void OnDataObjectInitialized();
 
 	virtual void NotifyListDataModified(UListDataObject_Base* ModifiedData,
 	                                    EOptionsListDataModifyReason ModifyReason =
 		                                    EOptionsListDataModifyReason::DirectlyModified);
+
+	//The child class should override this to allow the value be set to the forced string value
+	virtual bool CanSetToForcedStringValue(const FString& InForcedValue) const { return false; }
+
+	//The child class should override this to specify how to set the current value to the forced value
+	virtual void OnSetToForcedStringValue(const FString& InForcedValue)
+	{
+	}
+
+	//This function will be called when the value of the dependency data has changed. The child class can override this function to handle the custom logic needed. Super call is expected.
+	virtual void OnEditDependencyDataModified(UListDataObject_Base* ModifiedDependencyData,
+	                                          EOptionsListDataModifyReason ModifyReason);
 
 private:
 	FName DataID;
@@ -67,4 +89,7 @@ private:
 	UListDataObject_Base* ParentData;
 
 	bool bShouldApplyChangeImmediately = false;
+
+	UPROPERTY(Transient)
+	TArray<FOptionsDataEditConditionDescriptor> EditConditionDescArray;
 };

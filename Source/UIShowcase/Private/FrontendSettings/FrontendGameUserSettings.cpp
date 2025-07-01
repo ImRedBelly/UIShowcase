@@ -40,7 +40,25 @@ void UFrontendGameUserSettings::SetAllowBackgroundAudio(bool InNewAllowBackgroun
 {
 	bAllowBackgroundAudio = InNewAllowBackgroundAudio;
 }
+
 void UFrontendGameUserSettings::SetUseHDRAudioMode(bool InNewUseHDRAudioMode)
 {
 	bUseHDRAudioMode = InNewUseHDRAudioMode;
+}
+
+float UFrontendGameUserSettings::GetCurrentDisplayGamma() const
+{
+	if (GEngine)
+	{
+		return GEngine->DisplayGamma;
+	}
+	return 0.f;
+}
+
+void UFrontendGameUserSettings::SetCurrentDisplayGamma(float InNewGamma)
+{
+	if (GEngine)
+	{
+		GEngine->DisplayGamma = InNewGamma;
+	}
 }

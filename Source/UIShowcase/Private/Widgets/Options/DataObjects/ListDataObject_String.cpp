@@ -62,7 +62,7 @@ void UListDataObject_String::AdvanceToNextOption()
 
 	if (DataDynamicSetter)
 	{
-		DataDynamicSetter->SetValueAsString(CurrentStringValue);
+		DataDynamicSetter->SetValueFromString(CurrentStringValue);
 		NotifyListDataModified(this);
 	}
 }
@@ -89,7 +89,7 @@ void UListDataObject_String::BackToPreviousOption()
 
 	if (DataDynamicSetter)
 	{
-		DataDynamicSetter->SetValueAsString(CurrentStringValue);
+		DataDynamicSetter->SetValueFromString(CurrentStringValue);
 		NotifyListDataModified(this);
 	}
 }
@@ -109,7 +109,7 @@ void UListDataObject_String::OnRotatorInitiatedValueChanged(const FText& InNewSe
 
 		if (DataDynamicSetter)
 		{
-			DataDynamicSetter->SetValueAsString(CurrentStringValue);
+			DataDynamicSetter->SetValueFromString(CurrentStringValue);
 			NotifyListDataModified(this);
 		}
 	}
@@ -129,13 +129,30 @@ bool UListDataObject_String::TryResetBackToDefaultValue()
 
 		if (DataDynamicSetter)
 		{
-			DataDynamicSetter->SetValueAsString(CurrentStringValue);
+			DataDynamicSetter->SetValueFromString(CurrentStringValue);
 			NotifyListDataModified(this, EOptionsListDataModifyReason::ResetToDefault);
 			return true;
 		}
 	}
 
 	return false;
+}
+
+bool UListDataObject_String::CanSetToForcedStringValue(const FString& InForcedValue) const
+{
+	return CurrentStringValue != InForcedValue;
+}
+
+void UListDataObject_String::OnSetToForcedStringValue(const FString& InForcedValue)
+{
+	CurrentStringValue = InForcedValue;
+	TrySetDisplayTextFromStringValue(CurrentStringValue);
+
+	if (DataDynamicSetter)
+	{
+		DataDynamicSetter->SetValueFromString(CurrentStringValue);
+		NotifyListDataModified(this, EOptionsListDataModifyReason::DependencyModified);
+	}
 }
 
 bool UListDataObject_String::TrySetDisplayTextFromStringValue(const FString& InStringValue)
@@ -197,3 +214,45 @@ void UListDataObject_StringBool::TryInitBoolValues()
 }
 
 //********* UListDataObject_StringBool *********//
+
+
+//********* UListDataObject_StringInteger *********//
+
+void UListDataObject_StringInteger::AddIntegerOption(int32 InIntegerValue, const FText& InDisplayText)
+{
+	AddDynamicOption(LexToString(InIntegerValue), InDisplayText);
+}
+
+void UListDataObject_StringInteger::OnDataObjectInitialized()
+{
+	Super::OnDataObjectInitialized();
+
+	if (!TrySetDisplayTextFromStringValue(CurrentStringValue))
+	{
+		CurrentDisplayText = FText::FromString(TEXT("Custom"));
+	}
+}
+
+void UListDataObject_StringInteger::OnEditDependencyDataModified(UListDataObject_Base* ModifiedDependencyData,
+                                                                 EOptionsListDataModifyReason ModifyReason)
+{
+	if (DataDynamicGetter)
+	{
+		if (CurrentStringValue == DataDynamicGetter->GetValueAsString())
+		{
+			return;
+		}
+
+		CurrentStringValue = DataDynamicGetter->GetValueAsString();
+
+		if (!TrySetDisplayTextFromStringValue(CurrentStringValue))
+		{
+			CurrentDisplayText = FText::FromString(TEXT("Custom"));
+		}
+		NotifyListDataModified(this, EOptionsListDataModifyReason::DependencyModified);
+	}
+
+	Super::OnEditDependencyDataModified(ModifiedDependencyData, ModifyReason);
+}
+
+//********* UListDataObject_StringInteger *********//

@@ -17,7 +17,7 @@ class UISHOWCASE_API UListDataObject_Collection : public UListDataObject_Base
 public:
 	void AddChildListData(UListDataObject_Base* InChildListData);
 
-	//~ Begin UListDataObject_Base InterfaceAdd commentMore actions
+	//~ Begin UListDataObject_Base Interface
 	virtual TArray<UListDataObject_Base*> GetAllChildListData() const override;
 	virtual bool HasAnyChildListData() const override;
 	//~ End UListDataObject_Base Interface

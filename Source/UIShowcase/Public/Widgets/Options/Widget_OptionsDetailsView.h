@@ -23,7 +23,7 @@ public:
 	void ClearDetailsViewInfo();
 
 protected:
-	//~ Begin UUserWidget InterfaceAdd commentMore actions
+	//~ Begin UUserWidget Interface
 	virtual void NativeOnInitialized() override;
 	//~ End UUserWidget Interface
 
