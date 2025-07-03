@@ -53,6 +53,11 @@ class UISHOWCASE_API UWidget_ConfirmScreen : public UWidget_ActivatableBase
 public:
 	void InitConfirmScreen(UConfirmScreenInfoObject* InScreenInfoObject, TFunction<void(EConfirmScreenButtonType)> ClickedButtonCallback);
 
+protected:
+	//~ Begin UCommonActivatableWidget Interface
+	virtual UWidget* NativeGetDesiredFocusTarget() const override;
+	//~ End UCommonActivatableWidget Interface
+	
 private:
 	UPROPERTY(meta=(BindWidget))
 	UCommonTextBlock* CommonTextBlock_Title;

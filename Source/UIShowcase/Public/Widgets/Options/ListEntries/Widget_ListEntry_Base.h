@@ -24,6 +24,10 @@ public:
 	void BP_OnListEntryWidgetHovered(bool bWasHovered, bool bIsEntryWidgetStillSelected);
 	void NativeOnListEntryWidgetHovered(bool bWasHovered);
 
+	//The child widget blueprint should override it to handle the highlight state when this entry widget is hovered or selected
+	UFUNCTION(BlueprintImplementableEvent, meta=(DisplayName = "On Toggle Entry Widget Highlight State"))
+	void BP_OnToggleEntryWidgetHighlightState(bool bShouldHighlight) const;
+
 protected:
 	//The child widget blueprint should override this function for the gamepad interaction to function properly
 	UFUNCTION(BlueprintImplementableEvent, meta=(DisplayName = "Get Widget To Focus For Gamepad"))
@@ -31,6 +35,7 @@ protected:
 
 	//~ Begin IUserObjectListEntry Interface
 	virtual void NativeOnListItemObjectSet(UObject* ListItemObject) override;
+	virtual void NativeOnItemSelectionChanged(bool bIsSelected) override;
 	virtual void NativeOnEntryReleased() override;
 	//~ End IUserObjectListEntry Interface
 
@@ -45,7 +50,7 @@ protected:
 	virtual void OnOwningListDataObjectModified(UListDataObject_Base* OwningModifiedData,
 	                                            EOptionsListDataModifyReason ModifiedReason);
 	virtual void OnOwningDependencyDataObjectModified(UListDataObject_Base* OwningModifiedData,
-	                                            EOptionsListDataModifyReason ModifiedReason);
+	                                                  EOptionsListDataModifyReason ModifiedReason);
 
 
 	//The child class should override this to change editable state of the widgets it owns. Super call is expected

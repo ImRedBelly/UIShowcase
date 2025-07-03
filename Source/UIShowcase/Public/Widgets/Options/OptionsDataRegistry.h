@@ -33,7 +33,7 @@ private:
 	void InitGameplayCollectionTab();
 	void InitAudioCollectionTab();
 	void InitVideoCollectionTab();
-	void InitControlCollectionTab();
+	void InitControlCollectionTab(ULocalPlayer* InOwningLocalPlayer);
 
 	TArray<UListDataObject_Collection*> RegisteredOptionsTabCollections;
 };
